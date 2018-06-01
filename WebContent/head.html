@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
+<script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.cookie.js"></script>
+<script type="text/javascript" src="js/cookie.js"></script>
+<script type="text/javascript" src="js/jquery.easing.min.js"></script>
+<script type="text/javascript" src="js/custom.js"></script>
+
+<script type="text/javascript" src="js/reg_log.js"></script>
+
+
+<link rel="stylesheet" type="text/css" href="template/images/ue_grid.css" />
+<link rel="stylesheet" type="text/css" href="template/images/style.css" />
+<link rel="stylesheet" type="text/css" href="template/css/style.css" />
+<link rel="stylesheet" type="text/css" href="template/css/userinfo.css"/>
+<style>
+label{
+	font-size:15px
+	}
+h1{        
+    font-size:40px;  
+    color:red;  
+    text-shadow: yellow 6px 0px 5px;   
+    font-stretch: wider;  
+    font-weight: 900;
+    text-align:center;
+    margin-top:30px
+}  
+
+dl {
+	font:normal 12px/15px Arial;
+  	position: relative;
+    width: 350px;
+}
+dt {
+    clear: both;
+    float:left;
+    width: 80px;
+    padding: 4px 0 2px 0;
+    text-align: left;
+}
+dd {
+    float: left;
+    width: 200px;
+    margin: 0 0 8px 0;
+    padding-left: 6px;
+}
+.hint {
+display: none;
+    position: absolute;
+    right: -160px;
+    width: 200px;
+    margin-top: -4px;
+    border: 1px solid #c93;
+    padding: 10px 12px;
+    background: #ffc url(/jscss/demoimg/200911/pointer.gif) no-repeat -10px 5px;
+}
+
+.hint .hint-pointer {
+    position: absolute;
+    left: -10px;
+    top: 5px;
+    width: 10px;
+    height: 19px;
+    background: url(/jscss/demoimg/200911/pointer.gif) left top no-repeat;
+}
+</style>
+
+</head>
+<body>
+<div id="header">
+  <div class="common"> 
+  
+    <div class="login fr">
+      <div class="loginmenu"><a title="登录或注册"></a></div>
+      <ul>
+        <li class="openlogin"><a href="#" onclick="return false;">登录</a></li>
+        <li class="reg"><a href="#" onclick="return false;">注册</a></li>
+      </ul>
+    </div> 
+    
+    
+    <div class="produter">
+    <a class="main" href="#">个人中心</a>
+	<div class="sub first"><p><a href="#">待定</a></p>
+	<div class="sub even"><p><a href="#">待定</a></p>
+	<div class="sub odd"><p><a href="#">待定</a></p>
+	<div class="sub even"><p><a href="#">待定</a></p>
+	<div class="sub odd last"><p><a href="javascript:void(0)" onclick="deleteCookie()">退出登录</a></p>
+	</div></div></div></div></div>
+	</div>
+      
+    <div class="clear"></div>
+  </div>
+</div>
+<div class="clear"></div>
+<div class="loginmask"></div>
+<div id="loginalert">
+  <div class="pd20 loginpd">
+    <h3><i class="closealert fr"></i>
+      <div class="clear"></div>
+    </h3>
+    <div class="loginwrap">
+      <div class="loginh">
+        <div class="fl">用户登录</div>
+        <div class="fr">还没有账号<a id="sigup_now" href="#" onclick="return false;">立即注册</a></div>
+        <div class="clear"></div>
+      </div>
+      <h3><span>邮箱登录</span><span class="login_warning">用户名或密码错误</span>
+        <div class="clear"></div>
+      </h3>
+      <div class="clear"></div>
+      <form action="" method="post" id="login_form">
+        <div class="logininput">
+          <input type="text" name="username" id="lousername" class="loginusername" value="邮箱/用户名" />
+          <input type="text" class="loginuserpasswordt" value="密码" />
+          <input type="password" name="password" id="lopassword" class="loginuserpasswordp" style="display:none" />
+        </div>
+        <div class="loginbtn">
+          <div class="loginsubmit fl">
+            <input type="submit" value="登录" />
+            <div class="loginsubmiting">
+              <div class="loginsubmiting_inner"></div>
+            </div>
+          </div>
+          <div class="logcheckbox fl">
+            <input id="bcdl" type="checkbox" checked="checked" />
+            保持登录</div>
+          <div class="fr"><a href="#">忘记密码?</a></div>
+          <div class="clear"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</div>
+<div id="reg_setp">
+  <div class="back_setp">返回</div>
+	<h1>用户注册</h1>
+<div id=setp_quicklogin>
+
+<form action="" method="post" id="reg_form" >
+<dl>
+	<dt><label for="name">帐号:</label></dt>
+	<dd><input name="name" id="rename" type="text" autocomplete="off" valid="required" errmsg="用户名不能为空!" />
+	<span class="hint" id="errMsg_name">注册帐号（字母、数字或下划线组成）<span class="hint-pointer"></span></span>	</dd>
+	
+	<dt><label for="password">密码：</label></dt>
+	<dd><input name="password" id="repassword" type="password" valid="required" errmsg="密码不能为空!" />
+	<span class="hint"  id="errMsg_password">请输入密码,6-12位字母加数字<span class="hint-pointer">    </span></span>	</dd>
+	
+	<dt><label for="password2">确认密码：</label></dt>
+	<dd>
+	<input name="password2" id="password2"　type="text" type="password" valid="eqaul" eqaulName="password" errmsg="两次密码不同!" />
+	<span class="hint" id="errMsg_password2">请再输入一次上面的密码<span class="hint-pointer"></span></span>	</dd>
+	
+	<dt><label for="email">邮箱:</label></dt>
+	<dd><input name="email" id="email"type="text" valid="required|isEmail" errmsg="Email不能为空|Email格式不对!"/>
+	<span class="hint" id="errMsg_email">请输入邮箱(Email)<span class="hint-pointer"></span></span>	</dd>
+	
+	<dt><label for="tel">电话:</label></dt>
+	<dd><input name="tel" id="tel" type="text" valid="required|isMobile" errmsg="手机不能为空|手机格式不对!" />
+	<span class="hint" id="errMsg_tel">请输入你的手机号<span class="hint-pointer"></span></span>	</dd>
+	<dt class="button"></dt>
+	<dd class="button"><input type="submit" name="Submit" value=" 提 交 " style="height:40px;width:80px;background:#6BC30D;color:#fff"/></dd>
+</dl>
+</form>
+</div>
+
+</div>
+</body>
+</html>
