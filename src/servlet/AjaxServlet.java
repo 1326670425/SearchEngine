@@ -44,8 +44,14 @@ public class AjaxServlet extends HttpServlet {
 			doRegister(request,response);
 		else if(method.equals("login"))
 			doLogin(request,response);
+		else if(method.equals("submit"))
+			doSubmit(request,response);
+		else if(method.equals("quiz"))
+			doQuiz(request,response);
 
 	}
+
+
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -54,7 +60,15 @@ public class AjaxServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-
+	/**
+	 * 
+	 * @Title doSearch
+	 * @Description 模糊搜索
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
 	protected void doSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String keyword = request.getParameter("keyword");
 		String type = request.getParameter("type");
@@ -79,7 +93,15 @@ public class AjaxServlet extends HttpServlet {
 		db.close();
 		response.getWriter().write(result);
 	}
-	
+	/**
+	 * 
+	 * @Title doCheck
+	 * @Description 验证注册用户名是否存在
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
 	protected void doCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String[] str = {username};
@@ -100,7 +122,15 @@ public class AjaxServlet extends HttpServlet {
 		db.close();
 		
 	}
-	
+	/**
+	 * 
+	 * @Title doRegister
+	 * @Description 处理注册请求
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
 	protected void doRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -115,7 +145,15 @@ public class AjaxServlet extends HttpServlet {
 		db.close();
 		
 	}
-	
+	/**
+	 * 
+	 * @Title doLogin
+	 * @Description 处理登录请求
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
 	protected void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
@@ -137,5 +175,47 @@ public class AjaxServlet extends HttpServlet {
 		}
 		db.close();
 
+	}
+	/**
+	 * @Title doSubmit
+	 * @Description 处理回复请求
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
+	private void doSubmit(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String username = request.getParameter("username");
+		String detail = request.getParameter("detail");
+		String qid = request.getParameter("qid");
+		String sql = "insert into answer(user,detail,date,qid) values(?,?,now(),?)";
+		String str[] = {username,detail,qid};
+		DbOperation db = new DbOperation();
+		db.createPStatement(sql);
+		db.executeUpdate(str);
+		db.close();
+	}
+	/**
+	 * @Title doQuiz
+	 * @Description 处理提问请求
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @throws
+	 */
+	private void doQuiz(HttpServletRequest request, HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		String username = request.getParameter("username");
+		String title = request.getParameter("title");
+		String detail = request.getParameter("detail");
+		String sql = "insert into question(title,user,detail,date) values(?,?,?,now())";
+		String str[] = {title,username,detail};
+		DbOperation db = new DbOperation();
+		db.createPStatement(sql);
+		db.executeUpdate(str);
+		
+		
+		db.close();
 	}
 }

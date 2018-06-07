@@ -51,7 +51,8 @@ public class SearchServlet extends HttpServlet {
 			List<String> docList = list.get(1);
 
 			if(docList.isEmpty()){
-				request.setAttribute("result", "<h3>未找到相关搜索结果:"+text+"<hr>");
+				request.setAttribute("result", 
+						"<h3>未找到相关搜索结果:"+text+",&nbsp;&nbsp;去<a href=\"#\" id=\"quiz\">——提问</a><hr>");
 				test.close();
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("search.jsp");
 				requestDispatcher.forward(request, response);

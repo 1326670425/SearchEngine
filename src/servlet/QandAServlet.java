@@ -51,8 +51,9 @@ public class QandAServlet extends HttpServlet {
 			rs = db.executeQuery(new String[]{id});
 			rs.next();
 			news = new News();
-
+			news.setId(rs.getString("id"));
 			news.setTitle(rs.getString("title"));
+			request.setAttribute("title", rs.getString("title"));
 			news.setDescription(rs.getString("detail"));
 			news.setUser(rs.getString("user"));
 			news.setTime(sdf.format(rs.getTimestamp("date")));
@@ -63,13 +64,13 @@ public class QandAServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		sql = "select * from answer where qid = ?";
+		sql = "select * from answer where qid = ? order by date desc";
 		db.createPStatement(sql);
 		try {
 			rs = db.executeQuery(new String[]{id});
 			while(rs.next()){
 				news = new News();
-
+				news.setId(rs.getString("id"));
 				news.setDescription(rs.getString("detail"));
 				news.setUser(rs.getString("user"));
 				news.setTime(sdf.format(rs.getTimestamp("date")));

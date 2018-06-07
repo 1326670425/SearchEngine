@@ -66,8 +66,10 @@
 			$("#input").val($("#keyworddd").val());
 			
 			$("input[name='type'][value="+$("#type").val()+"]").prop("checked",true);
+
 			
 		});
+		
 	</script>
 	
 </head>
@@ -97,7 +99,7 @@
 				News news = (News)it.next();
 			%>
 			<div class="items">
-			<a href=<%= news.getUrl() %> class="main" target="_blank"> <%= news.getTitle() %> </a>
+			<a href=<%= news.getUrl() %> target="_blank"> <%= news.getTitle() %> </a>
 			<p><span><%= news.getDescription() %></span><br>
 			<span><%= news.getTime() %></span>
 			</p>

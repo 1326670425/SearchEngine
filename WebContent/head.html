@@ -4,11 +4,12 @@
 <meta http-equiv="Content-Type" content="text/html" charset="UTF-8"/>
 <script type="text/javascript" src="js/jquery-3.3.1.min.js"></script>
 <script type="text/javascript" src="js/jquery.cookie.js"></script>
-<script type="text/javascript" src="js/cookie.js"></script>
+
 <script type="text/javascript" src="js/jquery.easing.min.js"></script>
 <script type="text/javascript" src="js/custom.js"></script>
 
 <script type="text/javascript" src="js/reg_log.js"></script>
+<script type="text/javascript" src="js/cookie.js"></script>
 
 
 <link rel="stylesheet" type="text/css" href="template/images/ue_grid.css" />
@@ -67,7 +68,21 @@ display: none;
     background: url(/jscss/demoimg/200911/pointer.gif) left top no-repeat;
 }
 </style>
-
+<script>
+$(document).ready(function(){
+	$("#quiz").click(function(){
+		var title = prompt("提问","问题标题");
+		var detail = prompt("提问","问题描述");
+		$.post("AjaxServlet",
+				{username:$.cookie("username"),method:"quiz",title:title,detail:detail},
+				function(data){
+					alert("提交成功");	
+					window.location.reload();
+				}
+		);
+	});
+});
+</script>
 </head>
 <body>
 <div id="header">
@@ -82,12 +97,12 @@ display: none;
     </div> 
     
     
-    <div class="produter">
+    <div class="produter" style="display:none">
     <a class="main" href="#">个人中心</a>
-	<div class="sub first"><p><a href="#">待定</a></p>
-	<div class="sub even"><p><a href="#">待定</a></p>
-	<div class="sub odd"><p><a href="#">待定</a></p>
-	<div class="sub even"><p><a href="#">待定</a></p>
+	<div class="sub first"><p><a href="#">个人信息</a></p>
+	<div class="sub even"><p><a href="#" id="quiz">提问</a></p>
+	<div class="sub odd"><p><a href="#">我的回答</a></p>
+	<div class="sub even"><p><a href="#">我的提问</a></p>
 	<div class="sub odd last"><p><a href="javascript:void(0)" onclick="deleteCookie()">退出登录</a></p>
 	</div></div></div></div></div>
 	</div>
