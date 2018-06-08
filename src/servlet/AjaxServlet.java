@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import database.DbOperation;
 import java.sql.*;
 import java.util.*;
+import split.Test;
 /**
  * Servlet implementation class AjaxServlet
  */
@@ -213,9 +214,24 @@ public class AjaxServlet extends HttpServlet {
 		String str[] = {title,username,detail};
 		DbOperation db = new DbOperation();
 		db.createPStatement(sql);
-		db.executeUpdate(str);
+		ResultSet rs = db.executeUpdate(str);
+		int id = 0;
+		try {
+			rs.next();
+			id= rs.getInt(1);
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		str = new Test().extract(title, detail);
 		
-		
+		sql = "insert into index_list_2 values(?,?) ON DUPLICATE KEY UPDATE IDlist=concat(?,IDlist)";
+		for(int i=0;i<str.length;i++){
+			db.createPStatement(sql);
+			db.executeUpdate(new String[]{str[i],""+id,id+" "});
+		}
 		db.close();
 	}
 }
