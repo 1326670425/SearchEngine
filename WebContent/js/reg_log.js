@@ -1,8 +1,8 @@
 $(document).ready(function(){
-	var name = $('#rename');
-	name.blur(function(){
+	
+	$('#rename').blur(function(){
 		$.post("AjaxServlet",
-				{username:name.val(),method:"checkname"},
+				{username:$('#rename').val(),method:"checkname"},
 				function(data){
 					if(data)
 						alert("该用户名已注册");
@@ -61,6 +61,8 @@ $(document).ready(function(){
 		}
 		return flag;
 	});
+	
+
 });
 
 	var FormValid = function(frm) {

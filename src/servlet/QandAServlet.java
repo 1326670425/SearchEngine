@@ -53,7 +53,9 @@ public class QandAServlet extends HttpServlet {
 			news = new News();
 			news.setId(rs.getString("id"));
 			news.setTitle(rs.getString("title"));
+			
 			request.setAttribute("title", rs.getString("title"));
+			
 			news.setDescription(rs.getString("detail"));
 			news.setUser(rs.getString("user"));
 			news.setTime(sdf.format(rs.getTimestamp("date")));

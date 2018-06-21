@@ -31,6 +31,6 @@ function deleteCookie(){
 		window.location.reload();
 	}
 }
-$(function(){	
+$(document).ready(function(){
 	getCookie();
 });

@@ -70,24 +70,45 @@ display: none;
 </style>
 <script>
 $(document).ready(function(){
+	
+	setInterval(function() {
+	    var now = (new Date()).toLocaleString();
+	    $('#current_time').text(now);
+	}, 1000);
+	
 	$("#quiz").click(function(){
 		var title = prompt("提问","问题标题");
 		var detail = prompt("提问","问题描述");
-		$.post("AjaxServlet",
-				{username:$.cookie("username"),method:"quiz",title:title,detail:detail},
-				function(data){
-					alert("提交成功");	
-					window.location.reload();
-				}
-		);
+
+		if(title!=null&&detail!=null){
+			$.post("AjaxServlet",
+					{username:$.cookie("username"),method:"quiz",title:title,detail:detail},
+					function(data){
+						alert("提交成功");	
+						window.location.reload();
+					}
+			);
+		}
 	});
 });
+</script>
+<script>
+function personal(obj){
+	var s = obj.innerText;
+	var username = $.cookie("username");
+	if(s=="个人信息")
+		window.open("personalInfo.jsp?username="+username);
+	if(s=="我的回答")
+		window.open("personalQorA.jsp?username="+username+"&type=A");
+	if(s=="我的提问")
+		window.open("personalQorA.jsp?username="+username+"&type=Q");
+}
 </script>
 </head>
 <body>
 <div id="header">
   <div class="common"> 
-  
+  	<div id="current_time" align="center" style="font-size:20px;color:#AAA;position:fixed;top:10px;left:40%"></div>
     <div class="login fr">
       <div class="loginmenu"><a title="登录或注册"></a></div>
       <ul>
@@ -99,10 +120,10 @@ $(document).ready(function(){
     
     <div class="produter" style="display:none">
     <a class="main" href="#">个人中心</a>
-	<div class="sub first"><p><a href="#">个人信息</a></p>
-	<div class="sub even"><p><a href="#" id="quiz">提问</a></p>
-	<div class="sub odd"><p><a href="#">我的回答</a></p>
-	<div class="sub even"><p><a href="#">我的提问</a></p>
+	<div class="sub first"><p><a href="javascript:void(0);" onclick="personal(this)">个人信息</a></p>
+	<div class="sub even"><p><a href="#">提问</a></p>
+	<div class="sub odd"><p><a href="javascript:void(0);" onclick="personal(this)">我的回答</a></p>
+	<div class="sub even"><p><a href="javascript:void(0);" onclick="personal(this)">我的提问</a></p>
 	<div class="sub odd last"><p><a href="javascript:void(0)" onclick="deleteCookie()">退出登录</a></p>
 	</div></div></div></div></div>
 	</div>

@@ -2,7 +2,8 @@ package split;
 
 import java.util.*;
 
-
+import org.ansj.app.keyword.KeyWordComputer;
+import org.ansj.app.keyword.Keyword;
 import org.ansj.domain.Result;
 import org.ansj.domain.Term;
 import org.ansj.splitWord.analysis.*;
@@ -12,12 +13,28 @@ import database.DbOperation;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.regex.*;
-
+/**
+ * 
+ * @ClassName Test
+ * @Description 处理输入内容，分词、排序、搜索
+ * @author 吴扬颉
+ * @date 2018年6月8日
+ *
+ */
 public class Test {
+	
 	private DbOperation db = new DbOperation();
 	News news;
+	
 	public static String  regex = "^[wu]|null";
-	//分词
+	/**
+	 * 
+	 * @Title splitWord
+	 * @Description 搜索内容分词
+	 * @param str 输入的文本
+	 * @param sql SQL语句
+	 * @return List<List<String>> 关键词列表和文档列表
+	 */
 	public List<List<String>> splitWord(String str,String sql){
 		
 		//System.out.println(str);
@@ -62,7 +79,13 @@ public class Test {
 		list.add(docs);
 		return list;
 	}
-	//排序
+	/**
+	 * 
+	 * @Title sord
+	 * @Description 文档排序
+	 * @param docs 匹配的原始文档列表
+	 * @return List<String> 按出现次数排序后的文档列表
+	 */
 	public List<String> sord(List<String> docs){
 		Map<String,Integer> docList = new LinkedHashMap<String,Integer>();
 		String temp = "";
@@ -105,7 +128,14 @@ public class Test {
 		
 		return showList;
 	}
-	//查找匹配的news
+	/**
+	 * 
+	 * @Title search
+	 * @Description 搜索文档
+	 * @param showList 待检索的文档编号列表
+	 * @param keyList 关键字列
+	 * @return List<News> 检索到的文档消息列表
+	 */
 	public List<News> search(List<String>showList,List<String>keyList,String type){
 		String sql = "";
 		if(type.equals("1"))
@@ -131,12 +161,15 @@ public class Test {
 					String keyword = keyList.get(j);
 					title = title.replaceAll(keyword, "<font color=red>"+keyword+"</font>");
 				}
+				//网页搜索
 				if(type.equals("1")){
+
 					news.setTitle(title);
 					news.setUrl(rs.getString("url"));
-					news.setDescription(rs.getString("content"));
+					news.setDescription(rs.getString("description"));
 					news.setTime(rs.getString("time"));
 				}
+				//问答搜索
 				else{
 					news.setTitle(title);
 					news.setUser(rs.getString("user"));
@@ -153,11 +186,38 @@ public class Test {
 		}
 		return newList;
 	}
+	/**
+	 * 
+	 * @Title extract
+	 * @Description 提取关键字
+	 * @param title 问题标题
+	 * @param detail 问题内容
+	 * @return String[]
+
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public String[] extract(String title,String detail){
+		KeyWordComputer kwc = new KeyWordComputer(3);
+		Collection<Keyword> result = kwc.computeArticleTfidf(title, detail);
+		String str[] = new String[result.size()];
+		Iterator<Keyword> it = result.iterator();
+		for(int i=0;i<str.length;i++){
+			str[i] = it.next().getName();
+		}
+		return str;
+	}
+	/**
+	 * 
+	 * @Title close
+	 * @Description 关闭连接
+	 * @param 
+	 * @return void
+	 */
 	public void close(){
 		db.close();
 	}
 	//测试
 	public static void main(String[] args){
-	
+
 	}
 }

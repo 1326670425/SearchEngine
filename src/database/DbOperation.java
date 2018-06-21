@@ -9,10 +9,7 @@ import java.sql.*;
  * 
  */
 public class DbOperation {
-	private String Driver = "com.mysql.jdbc.Driver";
-	private String URL = "jdbc:mysql://localhost:3306/pytest?useSSL=true";
-	private String userName = "root";
-	private String password = "www";
+
 	private Connection conn;
 	private PreparedStatement stmt;
 	//连接池连接
@@ -20,6 +17,10 @@ public class DbOperation {
 		conn = DbConnPool.getConnection();
 	}
 /*	//传统方式连接
+	private String Driver = "com.mysql.jdbc.Driver";
+	private String URL = "jdbc:mysql://localhost:3306/pytest?useSSL=true";
+	private String userName = "root";
+	private String password = "www";
  	public DbOperation(){
 		try{
 			Class.forName(Driver);
@@ -38,7 +39,6 @@ public class DbOperation {
 	 * @Description 创建PrepareStatement查询对象
 	 * @param String sql 待查询的SQL语句
 	 * @return void
-	 * @throws
 	 */
 	public void createPStatement(String sql){
 		try {
@@ -54,7 +54,6 @@ public class DbOperation {
 	 * @Description 执行查询语句
 	 * @param String[] param SQL语句中的参数数组
 	 * @return ResultSet
-	 * @throws
 	 */
 	public ResultSet executeQuery(String[] param){
 		ResultSet rs=null;
@@ -73,7 +72,6 @@ public class DbOperation {
 	 * @Description 执行更新语句
 	 * @param String[] param SQL语句中的参数数组
 	 * @return ResultSet
-	 * @throws
 	 */
 	public ResultSet executeUpdate(String[] param){
 		try{
@@ -93,7 +91,6 @@ public class DbOperation {
 	 * @Description 关闭PrepareStatement对象和数据库连接
 	 * @param 
 	 * @return void
-	 * @throws
 	 */
 	public void close(){
 		try{

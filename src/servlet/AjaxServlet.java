@@ -65,10 +65,9 @@ public class AjaxServlet extends HttpServlet {
 	 * 
 	 * @Title doSearch
 	 * @Description 模糊搜索
-	 * @param @param request
-	 * @param @param response
+	 * @param request
+	 * @param response
 	 * @return void
-	 * @throws
 	 */
 	protected void doSearch(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String keyword = request.getParameter("keyword");
@@ -98,10 +97,9 @@ public class AjaxServlet extends HttpServlet {
 	 * 
 	 * @Title doCheck
 	 * @Description 验证注册用户名是否存在
-	 * @param @param request
-	 * @param @param response
+	 * @param request
+	 * @param response
 	 * @return void
-	 * @throws
 	 */
 	protected void doCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
@@ -127,10 +125,9 @@ public class AjaxServlet extends HttpServlet {
 	 * 
 	 * @Title doRegister
 	 * @Description 处理注册请求
-	 * @param @param request
-	 * @param @param response
+	 * @param request
+	 * @param response
 	 * @return void
-	 * @throws
 	 */
 	protected void doRegister(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
@@ -150,10 +147,9 @@ public class AjaxServlet extends HttpServlet {
 	 * 
 	 * @Title doLogin
 	 * @Description 处理登录请求
-	 * @param @param request
-	 * @param @param response
+	 * @param request
+	 * @param response
 	 * @return void
-	 * @throws
 	 */
 	protected void doLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
@@ -180,10 +176,9 @@ public class AjaxServlet extends HttpServlet {
 	/**
 	 * @Title doSubmit
 	 * @Description 处理回复请求
-	 * @param @param request
-	 * @param @param response
+	 * @param request
+	 * @param response
 	 * @return void
-	 * @throws
 	 */
 	private void doSubmit(HttpServletRequest request, HttpServletResponse response) {
 		// TODO Auto-generated method stub
@@ -210,6 +205,7 @@ public class AjaxServlet extends HttpServlet {
 		String username = request.getParameter("username");
 		String title = request.getParameter("title");
 		String detail = request.getParameter("detail");
+		//问题存入question表
 		String sql = "insert into question(title,user,detail,date) values(?,?,?,now())";
 		String str[] = {title,username,detail};
 		DbOperation db = new DbOperation();
@@ -218,15 +214,16 @@ public class AjaxServlet extends HttpServlet {
 		int id = 0;
 		try {
 			rs.next();
+			//获取新存入问题的自增列id
 			id= rs.getInt(1);
 			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		//问题分词
 		str = new Test().extract(title, detail);
-		
+		//关键词插入索引表
 		sql = "insert into index_list_2 values(?,?) ON DUPLICATE KEY UPDATE IDlist=concat(?,IDlist)";
 		for(int i=0;i<str.length;i++){
 			db.createPStatement(sql);

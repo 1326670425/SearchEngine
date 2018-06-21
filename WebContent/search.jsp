@@ -87,7 +87,6 @@
 		
 		String text = request.getParameter("keyword");
 		if(newList!=null){
-
 			String dlist = serialize.write((List<String>)request.getAttribute("dlist"));
 			String klist = serialize.write((List<String>)request.getAttribute("klist"));
 			String type = request.getParameter("type");
@@ -120,10 +119,14 @@
 			<% 
 				}
 			}
-
-		} 
+			%>
+			</ul>
+		<%
+		}
+		else{
 		%>
-		</ul>
+			<a href="#" id="quiz">去提问———<%= request.getParameter("keyword") %></a>
+		<% } %>
 		</div>
 </body>
 </html>
